@@ -1,0 +1,239 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.kotak{
+    width: 20rem;
+    height: 28rem;
+    text-align: center;
+    /* border: 1px solid red; */
+    position: relative;
+    
+}
+
+.kotakan {
+    border: black 1px solid;
+}
+
+.kotak11{
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* background-color: red; */
+    width: var(--x1);
+    height: var(--y1);
+}
+
+.kotak12{
+    position: absolute;
+    top: 0rem;
+    left: var(--x1);
+    /* background-color: rgb(140, 255, 0); */
+    width: var(--x2);
+    height: var(--y1);
+    
+}
+
+.kotak21{
+    position: absolute;
+    top: var(--y1);
+    left: 0;
+    /* background-color: rgb(255, 247, 0); */
+    width: var(--x1);
+    height: var(--y2);
+}
+
+.kotak22{
+    position: absolute;
+    top: var(--y1);
+    left: var(--x1);
+    /* background-color: rgb(0, 0, 0); */
+    width: var(--x2);
+    height: var(--y2);
+    
+}
+
+.x1{
+    position: absolute;
+    top: 20rem;
+    left: 0;
+    /* background-color: rgb(0, 0, 0); */
+    /* border: solid 1px green; */
+    width: 5rem;
+    height: 2rem;
+}
+
+.x2{
+    position: absolute;
+    top: 20rem;
+    right: 0;
+    /* background-color: rgb(0, 0, 0); */
+    /* border: solid 1px green; */
+    width: 5rem;
+    height: 2rem;
+}
+
+.y1{
+    position: absolute;
+    top: 0rem;
+    left: 19rem;
+    /* background-color: rgb(0, 0, 0); */
+    transform: rotate(90deg);
+    /* border: solid 1px green; */
+    width: 6rem;
+    height: 6rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.y2{
+    position: absolute;
+    top: 14rem;
+    left: 19rem;
+    /* background-color: rgb(0, 0, 0); */
+    transform: rotate(90deg);
+    /* border: solid 1px green; */
+    width: 6rem;
+    height: 6rem;
+    display: flex;
+    align-items: self-end;
+    justify-content: center;
+}
+
+.ya{
+    position: absolute;
+    top: 15.5rem;
+    right: 23rem;
+    /* background-color: rgb(0, 0, 0); */
+    /* border: solid 1px green; */
+    width: 6rem;
+    height: 6rem;
+    display: flex;
+    align-items: self-end;
+    justify-content: right;
+}
+
+.yb{
+    position: absolute;
+    top: -1rem;
+    right: 23rem;
+    /* background-color: rgb(0, 0, 0); */
+    /* border: solid 1px green; */
+    width: 6rem;
+    height: 6rem;
+    display: flex;
+    align-items: self-start;
+    justify-content: right;
+}
+
+.xa{
+    position: absolute;
+    top: 22rem;
+    left: -3rem;
+    /* background-color: rgb(0, 0, 0); */
+    /* transform: rotate(90deg); */
+    /* border: solid 1px green; */
+    width: 6rem;
+    height: 5rem;
+    display: flex;
+    align-items: self-end;
+    justify-content: center;
+}
+
+.xb{
+    position: absolute;
+    top: 22rem;
+    left: 17rem;
+    /* background-color: rgb(0, 0, 0); */
+    /* transform: rotate(90deg); */
+    /* border: solid 1px green; */
+    width: 6rem;
+    height: 5rem;
+    display: flex;
+    align-items: self-end;
+    justify-content: center;
+}
+
+.garis1{
+    position: absolute;
+    top: 20rem;
+    left: 0rem;
+    border-right: 2px red dashed;
+    border-left: 2px red dashed;
+    /* background-color: rgb(0, 0, 0); */
+    /* transform: rotate(90deg); */
+    /* border: solid 1px green; */
+    width: 20rem;
+    height: 4rem;
+}
+
+.garis2{
+    position: absolute;
+    top: 0rem;
+    left: -2rem;
+    border-top: 2px red dashed;
+    border-bottom: 2px red dashed;
+    /* background-color: rgb(0, 0, 0); */
+    /* transform: rotate(90deg); */
+    /* border: solid 1px green; */
+    width: 2rem;
+    height: 20rem;
+}
+
+.pos-a{
+    position: absolute;
+    height: 2rem;
+    width: 4rem;
+    /* border: 1px solid red; */
+    top: var(--pos-y);
+    right: var(--x2);
+}
+.pos-b{
+    position: absolute;
+    height: 2rem;
+    width: 4rem;
+    /* border: 1px solid red; */
+    top: var(--pos-y);
+    left: var(--x1);
+}
+.pos-c{
+    position: absolute;
+    height: 2rem;
+    width: 4rem;
+    /* border: 1px solid red; */
+    top: var(--y1);
+    right: var(--x2);
+}
+.pos-d{
+    position: absolute;
+    height: 2rem;
+    width: 4rem;
+    /* border: 1px solid red; */
+    top: var(--y1);
+    left: var(--x1);
+}
+
+
+
+
+
+
+/* GAMBAR */
+.box-gambar {
+    width: var(--x_sheet);
+    height: var(--y_sheet) ;
+    text-align: center;
+    border: 1px solid red;
+    position: relative;
+    box-sizing: content-box;
+}
+
+.boxed {
+    width: var(--size-box);
+    height: var(--size-box);
+    float: left;
+}
+
