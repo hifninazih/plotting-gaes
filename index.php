@@ -3,7 +3,7 @@
 $db = pg_connect("host=localhost port=5432 dbname=db_coord user=postgres password=postgres");
 
 //Boleh Diubah
-$skala = 500; // 1 : skala
+$skala = 250; // 1 : skala
 $grid_gambar = 5; // cm
 $x_kertas = 42; // cm
 $y_kertas = 29.7; // cm
@@ -138,6 +138,7 @@ $grid_asli = $grid_asli/100; // m
         --pos-y : <?=$css_pos_y?>;
       }
     </style>
+    
    <link rel="stylesheet" href="style.css">
   </head>
 <body>
@@ -147,7 +148,7 @@ $grid_asli = $grid_asli/100; // m
     <a class="navbar-brand" href="index.php">
       <!-- <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> -->
       <i class="fa fa-map-marker fa-fw"></i>
-      <!-- Yuk Plotting! -->
+      Yuk Plotting!
     </a>
   </div>
 </nav>
@@ -291,14 +292,21 @@ $grid_asli = $grid_asli/100; // m
       <tbody>
         <form action="update.php" method="post">
             <?php
+
               if($result_before){
                 //Menampilkan data before
-                while ($row = pg_fetch_row($result_before)) {
+                $row = pg_fetch_all($result_before);
+                $kolom = pg_fetch_all_columns($result_before);
+                for ($a = 0; $a < count($kolom); $a++) {
                 echo "<tr>";
-                for ($i = 0; $i < $numFields+1; $i++) {
-                    echo '<td class="text-center">' . $row[$i] . "</td>";
-                        }
-                // echo '<td class="text-center">' . '<button type="button" class="btn btn-primary btn-sm" disabled >Primary button</button>' . "</td>";
+                echo '<td class="text-center">' . $row[$a]['point'] . "</td>";
+                echo '<td class="text-center">' . $row[$a]['x'] . "</td>";
+                echo '<td class="text-center">' . $row[$a]['y'] . "</td>";
+                echo '<td class="text-center">' . $row[$a]['z'] . "</td>";
+                echo '<td class="text-center">' . $row[$a]['code'] . "</td>";
+                $status = $row[$a]['status'];
+                echo '<td class="text-center">' . '<h6><span class="badge bg-'. (($status == "plot") ? "success" : (($status == "skip") ? "warning" : "secondary")) .'">'. $status .'</span></h6>' . "</td>";
+                // echo '<td class="text-center">' . '<button type="button" class="btn btn-' . (($status == "plot") ? "success" : (($status == "skip") ? "warning" : "secondary")) . ' btn-sm" disabled >'.$row[$a]['status'].'</button>' . "</td>";
                 echo "</tr>";
                 }
               }
@@ -313,24 +321,33 @@ $grid_asli = $grid_asli/100; // m
                           }
                   echo '<input type="hidden" name="status" value="'. $status .'">';
                   echo '<input type="hidden" name="point" value="'. $_GET['point'] .'">';
-                  echo '<td class="text-center"><button type="submit" class="btn btn-'. (($status == "plot") ? "success" : (($status == "skip") ? "warning" : "secondary")) . ' btn-sm">Ganti</button></td>';
+                  echo '<td class="text-center"><button id="ganti" type="submit" class="btn btn-'. (($status == "plot") ? "success" : (($status == "skip") ? "warning" : "secondary")) . ' btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                  <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                  <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+                </svg></button></td>';
                   echo "</tr>";
                 }
               }
               
-                if($result_after){
+              if($result_after){
                 //Menampilkan data after
-                while ($row = pg_fetch_row($result_after)) {
-                  echo "<tr>";
-                  for ($i = 0; $i < $numFields+1; $i++) {
-                      echo '<td class="text-center">' . $row[$i] . "</td>";
-                          }
-                  echo "</tr>";
+                $row = pg_fetch_all($result_after);
+                $kolom = pg_fetch_all_columns($result_after);
+                for ($a = 0; $a < 2; $a++) {
+                echo "<tr>";
+                echo '<td class="text-center">' . $row[$a]['point'] . "</td>";
+                echo '<td class="text-center">' . $row[$a]['x'] . "</td>";
+                echo '<td class="text-center">' . $row[$a]['y'] . "</td>";
+                echo '<td class="text-center">' . $row[$a]['z'] . "</td>";
+                echo '<td class="text-center">' . $row[$a]['code'] . "</td>";
+                $status = $row[$a]['status'];
+                echo '<td class="text-center">' . '<h6><span class="badge bg-'. (($status == "plot") ? "success" : (($status == "skip") ? "warning" : "secondary")) .'">'. $status .'</span></h6>' . "</td>";
+                // echo '<td class="text-center">' . '<button type="button" class="btn btn-' . (($status == "plot") ? "success" : (($status == "skip") ? "warning" : "secondary")) . ' btn-sm" disabled >'.$row[$a]['status'].'</button>' . "</td>";
+                echo "</tr>";
                 }
               }
               ?>
           </form>
-            
       </tbody>
     </table>
   </div>

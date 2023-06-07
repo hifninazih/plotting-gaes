@@ -1,5 +1,6 @@
 var button_prev = document.getElementById("prev");
 var button_next = document.getElementById("next");
+var button_ganti = document.getElementById("ganti");
 
 // Tambahkan event listener untuk 'keydown' pada seluruh dokumen
 document.addEventListener("keydown", function(event) {
@@ -21,5 +22,10 @@ document.addEventListener("keydown", function(event) {
       // Tombol panah bawah
       button_next.click();
       break;
+    case 17:
+      // Tombol shift
+      button_ganti.click();
+      break;
+        
   }
 });
