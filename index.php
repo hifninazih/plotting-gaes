@@ -147,7 +147,7 @@ $grid_asli = $grid_asli/100; // m
     <a class="navbar-brand" href="index.php">
       <!-- <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> -->
       <i class="fa fa-map-marker fa-fw"></i>
-      Yuk Plotting!
+      <!-- Yuk Plotting! -->
     </a>
   </div>
 </nav>
@@ -238,18 +238,37 @@ $grid_asli = $grid_asli/100; // m
                       WHERE point = {$_GET['point']};";
               $result = pg_query($db, $sql);
 
-              $sql_before = "SELECT point,x,y,z,code FROM
+              $sql_status = "SELECT status FROM coord
+                      WHERE point = {$_GET['point']};";
+              $result_status = pg_query($db, $sql_status);
+
+              $sql_before = "SELECT point,x,y,z,code,status FROM
                             (SELECT * FROM coord
                             WHERE id < {$id}
                             ORDER BY id DESC
                             LIMIT 2) as foo
                             ORDER BY id ASC;";
               $result_before = pg_query($db, $sql_before);
-              $sql_after = "SELECT point,x,y,z,code FROM coord
+
+              $sql_before_status = "SELECT status FROM
+                            (SELECT * FROM coord
+                            WHERE id < {$id}
+                            ORDER BY id DESC
+                            LIMIT 2) as foo
+                            ORDER BY id ASC;";
+              $result_before_status = pg_query($db, $sql_before_status);
+
+              $sql_after = "SELECT point,x,y,z,code,status FROM coord
                             WHERE id > {$id}
                             ORDER BY id ASC
                             LIMIT 2;";
               $result_after = pg_query($db, $sql_after);
+
+              $sql_after_status = "SELECT status FROM coord
+                            WHERE id > {$id}
+                            ORDER BY id ASC
+                            LIMIT 2;";
+              $result_after_status = pg_query($db, $sql_after_status);
             
               // Mendapatkan jumlah kolom dalam hasil query
               $numFields = pg_num_fields($result);
@@ -270,26 +289,31 @@ $grid_asli = $grid_asli/100; // m
             ?>
       </thead>
       <tbody>
+        <form action="update.php" method="post">
             <?php
               if($result_before){
                 //Menampilkan data before
                 while ($row = pg_fetch_row($result_before)) {
                 echo "<tr>";
-                for ($i = 0; $i < $numFields; $i++) {
+                for ($i = 0; $i < $numFields+1; $i++) {
                     echo '<td class="text-center">' . $row[$i] . "</td>";
                         }
+                // echo '<td class="text-center">' . '<button type="button" class="btn btn-primary btn-sm" disabled >Primary button</button>' . "</td>";
                 echo "</tr>";
                 }
               }
-
+              
               if($result){
                 //Menampilkan data point
                 while ($row = pg_fetch_row($result)) {
                   echo '<tr class="table-active">';
+                  $status = pg_fetch_assoc($result_status)['status'];
                   for ($i = 0; $i < $numFields; $i++) {
                       echo '<td class="text-center">' . $row[$i] . "</td>";
                           }
-                  echo '<td class="text-center">WOW</td>';
+                  echo '<input type="hidden" name="status" value="'. $status .'">';
+                  echo '<input type="hidden" name="point" value="'. $_GET['point'] .'">';
+                  echo '<td class="text-center"><button type="submit" class="btn btn-'. (($status == "plot") ? "success" : (($status == "skip") ? "warning" : "secondary")) . ' btn-sm">Ganti</button></td>';
                   echo "</tr>";
                 }
               }
@@ -298,13 +322,14 @@ $grid_asli = $grid_asli/100; // m
                 //Menampilkan data after
                 while ($row = pg_fetch_row($result_after)) {
                   echo "<tr>";
-                  for ($i = 0; $i < $numFields; $i++) {
+                  for ($i = 0; $i < $numFields+1; $i++) {
                       echo '<td class="text-center">' . $row[$i] . "</td>";
                           }
                   echo "</tr>";
                 }
               }
               ?>
+          </form>
             
       </tbody>
     </table>
