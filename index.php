@@ -180,7 +180,7 @@ $grid_asli = $grid_asli/100; // m
 
     <div class="alert alert-success" role="alert">
 
-    <form class="row g-3" method="get" action="">
+    <form class="row g-3 row align-items-center" method="get" action="">
       
       <?php
         $previous = $id - 1;
@@ -213,20 +213,38 @@ $grid_asli = $grid_asli/100; // m
         }else{
           $next = $last['point'];
         }
+
+        $sql_count_all = "SELECT COUNT(*) FROM coord;";
+        $result_count_all = pg_query($db, $sql_count_all);
+        $count_all = pg_fetch_assoc($result_count_all);
+        $count_all = intval($count_all['count']);
+        
+        $sql_count_plot = "SELECT COUNT(*) FROM coord
+                           WHERE status = 'plot';";
+        $result_count_plot = pg_query($db, $sql_count_plot);
+        $count_plot = pg_fetch_assoc($result_count_plot);
+        $count_plot = intval($count_plot['count']);
+
+        $progress = round(($count_plot/$count_all)*100,2);
       ?>
 
-      <div class="col-auto">
+      <div class="col-auto mb-3">
+        <button type="submit" class="btn btn-primary">OK</button>
+      </div>
+      <div class="col-auto mb-3">
         <label for="point" class="visually-hidden">No Titik</label>
         <input type="number" class="form-control" id="point" name="point" placeholder="Point" value="<?=$point?>">
       </div>
-      <div class="col-auto">
+      <div class="col-auto mb-3">
         <a class="btn btn-secondary" href="?point=<?=$prev?>" role="button" id="prev"><</a>
       </div>
-      <div class="col-auto">
+      <div class="col-auto mb-3">
         <a class="btn btn-secondary" href="?point=<?=$next?>" role="button" id="next">></a>
       </div> 
-      <div class="col-auto">
-        <button type="submit" class="btn btn-primary mb-3">OK</button>
+      <div class="col text-center mb-3">
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar" style="width:<?=$progress?>%;" aria-valuenow="<?=$progress?>" aria-valuemin="0" aria-valuemax="100"><?=$progress?>%</div>
+        </div>
       </div>
     </form>
     <!-- <?=  'X : ' .$row['x']. '<br>Y : ' .$row['y'] . '<br>Elevation : ' . $row['z'] . '<br>Code : ' . $row['code'] ?> -->

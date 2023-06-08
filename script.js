@@ -22,7 +22,7 @@ document.addEventListener("keydown", function(event) {
       // Tombol panah bawah
       button_next.click();
       break;
-    case 17:
+    case 16:
       // Tombol shift
       button_ganti.click();
       break;
